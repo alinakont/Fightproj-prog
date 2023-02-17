@@ -24,7 +24,20 @@ public class FightProj3 {
         String player = scan.nextLine();
         System.out.println("\nVälj en karaktär:\n1. Mage: +5 defense\n2. Swordsman: +5 dexerity\n3. Brawler (barehanded): +5 strength\n");
         System.out.print("'1', '2' eller '3': ");
-        int pchar = scan.nextInt();
+        int pchar = 0;
+        while (true) {
+            pchar = 0;
+            try {
+                pchar = scan.nextInt();
+                break;
+            } catch (Exception e) {
+                System.out.println("<ERROR> Skriv in ett heltal!");
+                scan.nextLine();
+            }
+        }
+        if (pchar < 1 || pchar > 3) {
+            System.out.println("Fine whatever, have fun being a smartass. You don't get any powers now -_-");
+        }
         scan.nextLine();
         
         String boss = "Boss Daidelus";
@@ -75,22 +88,25 @@ public class FightProj3 {
                             }
                         }
                     }
-                    System.out.println("\n  <Press enter to continue.>");
-                    scan.nextLine();
+                    /*System.out.println("\n  <Press enter to continue.>");
+                    try 
+                    scan.nextLine();*/
                 }
             }
     //checking that player is still in the game and continuing
             if (oHP <= 0) {
+                System.out.println("GAME OVER!\n------------");
                 break;
             } else {
+                System.out.println("You defeated the enemy!\n-------------------------");
                 rounds++;
             }
         }
         
         
 //checking for initiation of bossfight
-        if (rounds >= 3) {
-            System.out.println("You defeated all the enemies, time for the boss!\n--------------------------------------------------");
+        if (rounds > 3) {
+            System.out.println("\n\nYou defeated all the enemies, time for the boss!\n--------------------------------------------------");
 //resetting HP for bossfight   
             pHP = 100;
             oHP = 100;
@@ -111,8 +127,8 @@ public class FightProj3 {
                             }
                         }
                     }
-                    System.out.println("\n  <Press enter to continue.>");
-                    scan.nextLine();
+                    /*System.out.println("\n  <Press enter to continue.>");
+                    scan.nextLine();*/
                 }
             }
         }
@@ -148,6 +164,7 @@ public class FightProj3 {
             } else {
 //boolean false: opponents turn
                 System.out.println(aname+"'s turn!");
+                hit += 10; //adding damage dealt to increase odds in playera favore
                 pHP -= hit;
 //adding defense and strenght points to hit
     //if defender is mage
@@ -181,6 +198,7 @@ public class FightProj3 {
             int hit = aint-dint;
             if (turn) {
                 System.out.println(aname+"'s turn!");
+                hit += 2; //adding damage dealt to increase odds in playera favore
                 oHP -= hit;
                 System.out.println(dname+" defense +5!");
                 System.out.println(aname+" dealt "+hit+" damage to "+dname+", "+dname+" now has "+oHP+" HP left.");
@@ -205,17 +223,18 @@ public class FightProj3 {
 //player's turn
                 System.out.println(aname+"'s turn!");
     //boss has +5 defense
-                int defense = 0 + (int)(Math.random()*5);
-                oHP -= hit - defense;
-                System.out.println(dname+" defense +"+defense+"!");
+                int attack = 0 + (int)(Math.random()*5);
+                pHP -= hit + attack;
+                System.out.println(aname+" attack +"+attack+"!");
                 System.out.println(aname+" dealt "+hit+" damage to "+dname+", "+dname+" now has "+oHP+" HP left.");
             } else {
 //bosse's turn
                 System.out.println(aname+"'s turn!");
     //boss has +5 attack
-                int attack = 0 + (int)(Math.random()*5);
-                pHP -= hit + attack;
-                System.out.println(aname+" attack +"+attack+"!");
+                hit += 3; //adding damage dealt to increase odds in playera favore
+                int defense = 0 + (int)(Math.random()*5);
+                oHP -= hit - defense;
+                System.out.println(dname+" defense +"+defense+"!");
                 System.out.println(aname+" dealt "+hit+" damage to "+dname+", "+dname+" now has "+pHP+" HP left.");
             }
         } else {
